@@ -1,0 +1,20 @@
+{
+    "aplusb": {
+        "name" : "A + B",
+        "id" : "aplusb",
+        "tags"  : ["basic"],
+        "statement" : "You are given two integers a and b. Calculate and output a+b.",
+        
+        "sample_input" : "4 5",
+        "sample_output" : "9",
+
+        "constraints" : {
+            "a" : ["10<=","<=1000"]
+        },
+
+        "last_submissions" : [],
+
+        "input" : [ "1 2","4 5","6 7"  ],
+        "output" : ["3","9","13"]
+    }
+}

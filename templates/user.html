@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}{{username}}{% endblock %}
+
+{% block content %}
+<style>
+  .card {
+    border-radius: var(--radius-0);
+    backdrop-filter: blur(8px);
+    padding: var(--size-fluid-3);
+    width: 400px;
+    height: 600px;
+    box-shadow: var(--shadow-5);
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    top: 0px;
+    
+    &:hover {
+      box-shadow: var(--shadow-3);
+    }
+
+    @media (--motionOK) {
+      animation: var(--animation-fade-in);
+    }
+  }
+  .submissions-card {
+    border-radius: var(--radius-0);
+    background: var(--gray-9);
+    padding: var(--size-fluid-3);
+    width: 100%;
+    height: 600px;
+    box-shadow: var(--shadow-5);
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    top: 0px;
+    
+    &:hover {
+      box-shadow: var(--shadow-3);
+    }
+
+    @media (--motionOK) {
+      animation: var(--animation-fade-in);
+    }
+  }
+
+  .card-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+
+  .container {
+    display: flex;
+    align-items: center;
+    height: 100vh;
+  }
+
+  .left-side {
+    flex: 1;
+    padding: 0 20px;
+  }
+
+  .card hr {
+    margin: 10px 0;
+  }
+    
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: var(--radius-0);
+    overflow: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: var(--gray-9);
+    margin-top: 20px;
+  }
+  
+  .table thead {
+    background-color: var(--gray-10);
+  }
+  
+  .table th, .table td {
+    padding: 10px 15px;
+    text-align: left;
+  }
+  
+  .table th {
+    font-weight: bold;
+  }
+  
+  .table tbody tr:nth-child(even) {
+    background-color: var(--gray-10);
+  }
+  
+  .table tbody tr:hover {
+    background-color: var(--gray-11);
+  }
+</style>
+
+<div class="container">
+  <div class="left-side">
+    <div class="card">
+      <h2 class="card-title">{{username}}</h2>
+      {% if info['name']!="" and  info['surname']!="" %}
+        <h3 style="font-size: 1rem;">{{info['name']}} {{info['surname']}}</h3>
+      {% endif %}
+      <hr>
+      Problems Solved: {{accepted|length}} 
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="left-side">
+    <div class="submissions-card">
+      <h2 class="card-title">Submissions</h2>
+      <!-- {{info['submissions']}} -->
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Username</th>
+            <th>Problem ID</th>
+            <th>Problem Name</th>
+            <th>Testcase</th>
+            <th>Status</th>
+            <th>Submission ID</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for v in submissions %}
+            <tr>
+              <td>{{ v['date'] }}</td>
+              <td>{{ username }}</td>
+              <td><a href="{{ url_for('problem', problem_id=v['problem_id']) }}">{{ v['problem_id'] }}</a></td>
+              <td>{{ v['problem_name'] }}</td>
+              <td>{{ v['final'].0 }}</td>
+              <td>
+
+                <s[an] class="result-text" style="color:
+                  {% if  v['final'].1 == 'Accepted' %}var(--lime-7);
+                  {% elif  v['final'].1 == 'Wrong Answer' %}var(--yellow-7);
+                  {% else %}var(--red-7);
+                  {% endif %};">
+                  <strong>{{  v['final'].1 }}</strong>
+                </span>
+
+              </td>
+              <td><a href="{{ url_for('submission', id=v['sub_id']) }}">{{ v['sub_id'] }}</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

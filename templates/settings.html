@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+
+<style>
+    .card {
+        border-radius: var(--radius-0);
+        backdrop-filter: blur(8px);
+        padding: var(--size-fluid-3);
+        height: 400px;
+        width: 800px;
+        box-shadow: var(--shadow-5);
+        position: relative;
+        transition: box-shadow 0.3s ease;
+
+        &:hover {
+            box-shadow: var(--shadow-3);
+        }
+
+        @media (--motionOK) {
+            animation: var(--animation-fade-in);
+        }
+    }
+
+    .success-button {
+        background-color: var(--gray-9);
+        border-color: var(--green-6);
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+
+        position: absolute;
+        bottom: 0;
+        left: 13%;
+        transform: translateX(-50%);
+    }
+
+    .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .input-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .input-row label {
+        min-width: 150px;
+    }
+
+    .input-row input {
+        width: 400px;
+        padding: 5px;
+        border: 1px solid var(--gray-12);
+        border-radius:0px;
+    }
+    
+    .input-row input:not([disabled]) {
+        border-color: var(--green-8);
+    }
+
+    .input-row input:focus {
+        border-color: var(--green-8);
+    }
+
+    .edit-icon {
+        cursor: pointer;
+    }
+</style>
+
+<script>
+    function toggleEdit(inputId) {
+        const input = document.getElementById(inputId);
+
+        if (inputId === 'password') {
+            input.type = (input.type === 'password') ? 'text' : 'password';
+        }
+
+        input.disabled = !input.disabled;
+        if (!input.disabled) {
+            input.focus();
+        }
+    }
+</script>
+
+<div class="card" >
+    <h3>Settings</h3>
+    <br>
+    <form id="settings-form" action="/settings" method="post">
+        <div class="input-container">
+
+            <div class="input-row">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" value="{{ session['name'] }}" disabled>
+                <span class="edit-icon" onclick="toggleEdit('name')"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+
+            <div class="input-row">
+                <label for="surname">Surname:</label>
+                <input type="text" id="surname" name="surname" value="{{ session['surname'] }}" disabled>
+                <span class="edit-icon" onclick="toggleEdit('surname')"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+
+            <div class="input-row">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" value="{{ session['username'] }}" disabled>
+                <span class="edit-icon" onclick="toggleEdit('username')"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+
+            <div class="input-row">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" value="{{ session['password'] }}" disabled>
+                <span class="edit-icon" onclick="toggleEdit('password')"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+
+            <div class="input-row">
+                <label for="mail">Mail:</label>
+                <input type="email" id="mail" name="mail" value="{{ session['mail'] }}" disabled>
+                <span class="edit-icon" onclick="toggleEdit('mail')"><i class="fa-regular fa-pen-to-square"></i></span>
+            </div>
+
+        </div>
+
+        <button type="submit" class="success-button">Save Changes</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://unpkg.com/open-props"/>
+
+    <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/buttons.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/indigo.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/indigo-hsl.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/easings.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/animations.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/sizes.min.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/open-props/gradients.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/themes/prism.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.24.1/components/prism-c.min.js"></script>
+
+    <link rel="icon" href="{{url_for('static',filename='img/logo.svg')}}" type="image/png">
+
+    <title>HROJ - {% block title %} {% endblock %}</title>
+
+    <style>
+        html {
+
+            --brand-light: var(--orange-6);
+            --text-1-light: var(--gray-8);
+            --text-2-light: var(--gray-7);
+            --surface-1-light: var(--gray-0);
+            --surface-2-light: var(--gray-1);
+            --surface-3-light: var(--gray-2);
+            --surface-4-light: var(--gray-3);
+
+            --brand-dark: var(--orange-3);
+            --text-1-dark: var(--gray-3);
+            --text-2-dark: var(--gray-5);
+            --surface-1-dark: var(--gray-12);
+            --surface-2-dark: var(--gray-11);
+            --surface-3-dark: var(--gray-10);
+            --surface-4-dark: var(--gray-9);
+        
+            --brand-dim: var(--orange-4);
+            --text-1-dim: var(--gray-3);
+            --text-2-dim: var(--gray-4);
+            --surface-1-dim: var(--gray-8);
+            --surface-2-dim: var(--gray-7);
+            --surface-3-dim: var(--gray-6);
+            --surface-4-dim: var(--gray-5);
+        }
+        body {
+            background-color: var(--surface-4-dark);
+            background-image: url("{{url_for('static',filename='img/hachiroku/3.jpg')}}");
+            /* background-position: center; */
+            background-size: cover;
+            background-repeat: no-repeat;
+            color: var(--text-1-dark);
+        }
+        html, body {
+            /* overflow: hidden; */
+            /* overflow-y: auto; */
+        }
+    </style>
+
+</head>
+    <body>
+        {% if 'username' in session %}
+            {% include "nav.html" %}
+        {% endif %}
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+        
+    </body>
+</html>

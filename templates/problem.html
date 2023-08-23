@@ -1,0 +1,167 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ pinfo['name'] }}{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        background-color: var(--gray-9);
+        border-radius: var(--radius-0);
+        padding: var(--size-fluid-3);
+        width: 800px;
+        box-shadow: var(--shadow-5);
+        margin: 0 auto;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+
+    .card-statement {
+        white-space: pre-line;
+        margin-bottom: 20px;
+    }
+
+    .section {
+        margin-top: 20px;
+    }
+
+    .section-title {
+        font-size: 1rem;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .section-title button {
+        background: none;
+        border: none;
+        padding: 1px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        color: var(--blue-0);
+        margin-left: 5px;
+    }
+
+    .section-icon {
+        margin-right: 5px;
+        font-size: 1rem;
+    }
+
+    .sample-card {
+        border: 1px solid var(--gray-12);
+        background-color: var(--gray-10);
+        padding: 10px;
+        margin-bottom: 10px;
+        width: auto;
+        max-width: 400px;
+    }
+    
+    .constraints-card {
+        border: 1px solid var(--gray-12);
+        background-color: var(--gray-9);
+        padding: 10px;
+        margin-bottom: 10px;
+        width: auto;
+        max-width: 400px;
+    }
+    
+    .code-container {
+        background-color: var(--gray-9);
+        padding: var(--size-fluid-3);
+        border-radius: var(--radius-0);
+        width: 800px;
+        box-shadow: var(--shadow-5);
+        margin: 20px auto;
+    }
+    
+    .code-section {
+        margin-top: 20px;
+    }
+    
+    .radio-label {
+        display: inline-block;
+        margin-right: 10px;
+    }
+    
+    .submit-button {
+        backdrop-filter: blur(3px);
+        /* border-color: var(--green-8); */
+        color: var(--red-0);
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+</style>
+
+<div class="card">
+    <h2 class="card-title">{{ pinfo['name'] }}</h2>
+    <div class="card-statement">
+        {{ pinfo['statement'] }}
+    </div>
+
+    <div class="section">
+        <h3 class="section-title">
+            Constraints
+        </h3>
+        <div class="constraints-card">
+            {% for vname, constraint in pinfo['constraints'].items() %}
+                <p>{{ constraint[0] }}{{ vname }}{{ constraint[1] }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="section">
+        <h3 class="section-title">
+            Input
+            <button onclick="copyToClipboard('{{ pinfo['sample_input'] }}')"><i class="fa-solid fa-copy"></i></button>
+        </h3>
+        <div class="sample-card">
+            <pre>{{ pinfo['sample_input'] }}</pre>
+        </div>
+    </div>
+
+    <div class="section">
+        <h3 class="section-title">
+            Output
+            <button onclick="copyToClipboard('{{ pinfo['sample_output'] }}')"><i class="fa-solid fa-copy"></i></button>
+        </h3>
+        <div class="sample-card">
+            <pre>{{ pinfo['sample_output'] }}</pre>
+        </div>
+    </div>
+</div>
+
+<div class="code-container">
+    <!-- <h2 style="font-size: 1.2rem; margin-bottom: 10px;">Submit Your Solution</h2> -->
+    <input type="hidden" name="token" value="{{ session['token'] }}">
+    <input type="hidden" name="problemname" value="{{ pinfo['name'] }}">
+    <form action="/problem/{{ pinfo['id'] }}" method="post">
+        <select id="select" name="language">
+          <optgroup label="Language">
+            <option>C++ 17</option>
+          </optgroup>
+        </select>
+
+        <div class="code-section">
+            <textarea name="code" rows="10" cols="70" placeholder="Enter your code here" style="margin-right: 20px;"></textarea>
+        </div>
+
+        <div class="code-section">
+            <button class="submit-button" type="submit" name="submit_code">Submit</button>
+        </div>
+
+    </form>
+</div>
+
+<script>
+    function copyToClipboard(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+    }
+</script>
+{% endblock %}

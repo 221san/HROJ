@@ -1,0 +1,244 @@
+{% extends 'base.html' %}
+
+{% block title %}Moderate 86{% endblock %}
+
+
+{% block content %}
+<style>
+  .card {
+    height: 100vh;
+    width: 400px;
+    border-radius: var(--radius-2);
+    padding: var(--size-fluid-3);
+    box-shadow: var(--shadow-6);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-3);
+  }
+
+  @media (--motionOK) {
+    .card {
+      animation: var(--animation-fade-in);
+    }
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+
+  .button {
+    width: 100%;
+    border: 1px solid var(--primary-color);
+    background: transparent;
+    color: var(--primary-color);
+    padding: 10px;
+    border-radius: var(--radius-1);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+
+  .button:hover {
+    background: var(--primary-color);
+    color: white;
+  }
+
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(3px);
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-content {
+    background-color: var(--gray-9);
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: var(--shadow-6);
+    position: center;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  .input-group {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px; 
+  }
+  
+  .input-group label {
+    flex: 0 0 auto; 
+    min-width: 120px;
+  }
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--gray-7);
+  }
+
+  .user-table th,
+  .user-table td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-7);
+    border-right: 1px solid var(--gray-7);
+  }
+
+  .user-table th {
+    background-color: var(--gray-8);
+  }
+
+  .user-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .ban-button {
+    background-color: var(--red-8);
+    color: var(--red-0);
+    border: none;
+    padding: 5px 10px;
+    border-radius: var(--radius-1);
+    cursor: pointer;
+  }
+
+  .visit-button {
+    background-color: var(--blue-8);
+    color: var(--blue-0);
+    border: none;
+    padding: 5px 10px;
+    border-radius: var(--radius-1);
+    cursor: pointer;
+  }
+</style>
+
+<div class="card">
+  <h2 class="card-title">Moderate Hachiroku</h2>
+  <button class="button" id="open_create_user"><i class="fa-solid fa-user-plus"></i> Create User</button>
+  <button class="button" id="open_user_database"><i class="fa-solid fa-address-card"></i> User Database</button>
+</div>
+
+<div class="modal" id="create_user">
+  <div class="modal-content">
+    <button class="close-button" id="close_create_user"><i class="fa-regular fa-circle-xmark"></i></button>
+    <form action="/=>86" method="post">
+
+      <div class="input-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" placeholder="name">
+      </div>
+
+      <div class="input-group">
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" placeholder="surname">
+      </div>
+
+      <div class="input-group">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" placeholder="username">
+      </div>
+      
+      <div class="input-group">
+        <label for="mail">Mail:</label>
+        <input type="text" id="mail" name="mail" placeholder="mail">
+      </div>
+
+      <div class="input-group">
+        <label for="password">Password:</label>
+        <input type="text" id="password" name="password" placeholder="password">
+      </div>
+
+      <div class="input-group">
+        <label for="role">Role:</label>
+        <input type="number" id="role" name="role" placeholder="role">
+      </div>
+
+      <button type="submit" name="create_user">Create</button>
+    </form>
+</div>
+
+</div>
+
+<div class="modal" id="user_database">
+  <div class="modal-content">
+    <button class="close-button" id="close_user_database"><i class="fa-regular fa-circle-xmark"></i></button>
+    <table class="user-table">
+      <thead>
+        <tr style="background-color: var(--gray-10);">
+          <th style="background-color: var(--gray-10);">Token</th>
+          <th style="background-color: var(--gray-10);">Name</th>
+          <th style="background-color: var(--gray-10);">Surname</th>
+          <th style="background-color: var(--gray-10);">Username</th>
+          <th style="background-color: var(--gray-10);">Password</th>
+          <th style="background-color: var(--gray-10);">Mail</th>
+          <th style="background-color: var(--gray-10);">Role</th>
+          <th style="background-color: var(--gray-10);">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for tok,info in db.items() %}
+        <tr>
+          <td style="color:var(--gray-5);">{{ tok }}</td>
+          <td>{{ info['name'] }}</td>
+          <td>{{ info['surname'] }}</td>
+          <td>{{ info['username'] }}</td>
+          <td>{{ info['password'] }}</td>
+          <td>{{ info['mail'] }}</td>
+          <td>{{ info['role'] }}</td>
+          <td>
+            <form action="/=>86" method="post">
+              <input type="hidden" name="token" value="{{ tok }}">
+              {% if info['role']!='86' %}
+                  <button class="ban-button" name="ban_this" type="submit"><i class="fa-solid fa-trash"></i></button>
+              {% endif %}
+              <a class="visit-button" href="{{ url_for('user', username=info['username']) }}"><i class="fa-solid fa-eye"></i></a>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<script>
+  const open_create_user = document.getElementById('open_create_user');
+  const close_create_user = document.getElementById('close_create_user');
+  const modal_create_user = document.getElementById('create_user');
+
+  const open_user_database = document.getElementById('open_user_database');
+  const close_user_database = document.getElementById('close_user_database');
+  const modal_user_database = document.getElementById('user_database');
+
+  open_create_user.addEventListener('click', () => { modal_create_user.style.display = 'flex'; });
+  close_create_user.addEventListener('click', () => { modal_create_user.style.display = 'none'; });
+
+  open_user_database.addEventListener('click', () => { modal_user_database.style.display = 'flex'; });
+  close_user_database.addEventListener('click', () => { modal_user_database.style.display = 'none'; });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      modal_create_user.style.display = 'none';
+      modal_user_database.style.display = 'none';
+    }
+  });
+</script>
+{% endblock %}

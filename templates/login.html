@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Auth{% endblock %}
+
+{% block content %}
+
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  #login {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  #signin {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--size-2);
+  }
+  
+  #signin > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--size-2);
+  }
+  
+  footer {
+    margin-block-start: var(--size-2);
+    display: flex;
+    flex-direction: row;
+    gap: var(--size-2);
+  }
+  #signin label::before,
+    #signin input[type="text"]::before,
+    #signin input[type="password"]::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+    }
+
+    footer button::before {
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f090"; /* Sign-in icon for Login button */
+        margin-right: var(--size-1);
+    }
+</style>
+
+<form id="login" action="/login" method="post">
+    <fieldset id="signin">
+        <div>
+            <label for="input__username" style="color:var(--gray-5)"><i class="fa-solid fa-user"></i></label>
+            <input id="input__username" name="username" type="text" autocomplete="username" placeholder="Username">
+        </div>
+        <div>
+            <label for="input__password" style="color:var(--gray-5)"><i class="fa-solid fa-key"></i></label>
+            <input id="input__password" name="password" type="password" autocomplete="current-password" placeholder="Password">
+        </div>
+        <footer>
+            <button name="login" type="submit">Login</button>
+            <button type="reset" onclick="window.location.href='{{url_for('register')}}'">Register</button>
+        </footer>
+        <legend>Sign In</legend>
+    </fieldset>
+</form>
+{% endblock %}

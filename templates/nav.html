@@ -1,0 +1,104 @@
+<style>
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+        backdrop-filter: blur(3px);
+    }
+
+    .logo {
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        color: var(--gray-2);
+    }
+
+    .logo span:nth-child(2) {
+        color: var(--gray-6);
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 20px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-item {
+        display: inline-block;
+        border: none;
+        background-color: transparent;
+        cursor: pointer;
+        font-size: 16px;
+        font-weight: bold;
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .profile-dropdown {
+        position: relative;
+    }
+
+    .profile-dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: var(--gray-9);
+        border: 1px solid var(--gray-12);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        z-index: 1;
+        padding: 10px;
+        min-width: 120px;
+    }
+
+    .dropdown-item {
+        display: block;
+        padding: 5px 0;
+        color:var(--gray-0);
+        text-decoration: none;
+        transition: color 0.3s;
+    }
+
+    .dropdown-item:hover {
+        color:var(--yellow-1);
+    }
+
+    .dropdown-content hr {
+        margin: 5px 0;
+        border-color: var(--gray-12);
+    }
+</style>
+
+<nav>
+    <a class="logo" onclick="location.href='{{url_for('home')}}'">
+        <span>HR</span>
+        <span>OJ</span>
+    </a>
+    <ul class="nav-links">
+        {% if session['role']=='86' %}
+            <li>
+                <a style="color: var(--red-0);" class="nav-item" onclick="location.href='{{url_for('mod86')}}'">
+                    <i class="fa-solid fa-user-secret"></i>  Mod86
+                </a>
+            </li>
+        {% endif %}
+        <li class="profile-dropdown">
+            <a class="nav-item">
+                <i class="fas fa-user"></i> {{session['username']}}
+            </a>
+            <div class="dropdown-content">
+                <a class="dropdown-item" onclick="location.href='{{url_for('user',username=session['username'])}}'"><i class="fa-solid fa-user"></i> Profile</a>
+                <a class="dropdown-item" onclick="location.href='{{url_for('settings')}}'"><i class="fas fa-cog"></i> Settings</a>
+                <hr>
+                <a class="dropdown-item md-hidden" onclick="location.href='{{url_for('logout')}}'"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>        
+        </li>
+    </ul>
+</nav>

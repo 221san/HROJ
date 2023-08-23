@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Register{% endblock %}
+
+{% block content %}
+
+<style>
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+
+  .flash-message {
+    position: center;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--red-7);
+    padding: 10px;
+    text-align: center;
+    display: none;
+    animation: var(--animation-shake-x);
+  }
+
+  #register-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  fieldset {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--size-2);
+  }
+
+  label {
+    min-width: 150px;
+  }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  footer {
+    margin-block-start: var(--size-2);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--size-2);
+  }
+</style>
+
+<form id="register-form" action="/register" method="post">
+  <fieldset>
+    <div class="input-row">
+      <label for="input__Name">Name:</label>
+      <input id="input__Name" name="name" type="text" required autocomplete="Name" placeholder="Name">
+    </div>
+    <div class="input-row">
+      <label for="input__Surname">Surname:</label>
+      <input id="input__Surname" name="surname" type="text" required autocomplete="Surname" placeholder="Surname">
+    </div>
+    <div class="input-row">
+      <label for="input__Username">Username:</label>
+      <input id="input__Username" name="username" type="text" required autocomplete="Username" placeholder="Username">
+    </div>
+    <div class="input-row">
+      <label for="input_Mail">Mail:</label>
+      <input id="input_Mail" name="mail" type="text" required placeholder="Mail">
+    </div>
+    <div class="input-row">
+      <label for="input__Password2">Password:</label>
+      <input id="input__Password2" name="password" type="password" required autocomplete="current-Password" placeholder="Password">
+    </div>
+    <footer>
+      <button name="register">Register</button>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="flash-message" id="flash-message">
+            <p>{{ messages[0] }}</p>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </footer>
+    <legend>Register</legend>
+  </fieldset>
+</form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var flashMessage = document.getElementById('flash-message');
+    if (flashMessage) {
+      flashMessage.style.display = 'block';
+      setTimeout(function () {
+        flashMessage.style.display = 'none';
+      }, 3000);
+    }
+  });
+</script>
+
+{% endblock %}

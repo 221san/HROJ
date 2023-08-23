@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<style>
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: var(--radius-0);
+    backdrop-filter: blur(8px);
+    padding: var(--size-fluid-3);
+    width: 800px;
+    height: 100px;
+    box-shadow: var(--shadow-5);
+    position: relative;
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 10px;
+
+    &:hover {
+      box-shadow: var(--shadow-3);
+    }
+
+    @media (--motionOK) {
+      animation: var(--animation-fade-in);
+    }
+  }
+
+  .card-id {
+    font-size: 0.9rem;
+    color: var(--gray-5);
+  }
+
+  .button {
+    background-color: var(--gray-9);
+    color: var(--blue-0);
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  .statement {
+    font-size: 0.96rem;
+    color: var(--gray-4);
+  }
+</style>
+
+<div class="container">
+  <div class="left-side">
+    <div class="card-container">
+      {% for id,info in problems.items() %}
+        <div class="card">
+          <!-- <div> -->
+            <div class="card-id">{{ id }}</div>
+            <p>{{ info['name'] }}</p>
+            <p class="statement">{{ info['statement'][:50] }}...</p>
+          <!-- </div> -->
+          <a class="button" href="{{ url_for('problem', problem_id=id) }}"><i class="fa-solid fa-file"></i></a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

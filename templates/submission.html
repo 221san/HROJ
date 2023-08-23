@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block title %}Submission {{ id }} | {{ pinfo['name'] }}{% endblock %}
+
+{% block content %}
+<style>
+    .card {
+        backdrop-filter: blur(10px);
+        border-radius: var(--radius-0);
+        padding: var(--size-fluid-3);
+        width: 800px;
+        box-shadow: var(--shadow-5);
+        margin: 0 auto;
+    }
+
+    .card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .sub_right {
+        color: var(--blue);
+        font-size: 16px;
+        text-decoration: none;
+    }
+
+    .sub_right:hover {
+        animation: var(--animation-blink);
+    }
+
+    .submission-info {
+        font-size: 16px;
+        color: var(--gray-5);
+    }
+
+    .result-number {
+        color: var(--gray-5);
+        font-size: 14px;
+        margin-right: 10px;
+    }
+
+    .result-text {
+        font-size: 14px;
+    }
+
+    .result-stats {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .result-card {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .result-icon {
+        width: 20px;
+        height: 20px;
+        margin-right: 10px;
+    }
+    .code-card {
+        background-color: var(--gray-9);
+        border-radius: var(--radius-0);
+        padding: var(--size-fluid-3);
+        width: 800px;
+        box-shadow: var(--shadow-5);
+        margin: 20px auto;
+    }
+
+    .code-card-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 16px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    .copy-icon {
+        cursor: pointer;
+        margin-left: 10px;
+        color: var(--gray-4);
+    }
+
+    pre {
+        background-color: var(--gray-9);
+        padding: 10px;
+        border-radius: var(--radius-0);
+        overflow-x: auto;
+    }
+
+    code {
+        font-size: 14px;
+    }
+</style>
+
+<div class="card">
+    <div class="card-title">
+        <div>{{ pinfo['name'] }}</div>
+        <div>
+            <a class="sub_right" href="{{ url_for('problem', problem_id=problem_id) }}">{{ problem_id }}</a>
+            <a class="sub_right" href="{{ url_for('user', username=info['username']) }}">{{ info['username'] }} </a>
+        </div>
+    </div>
+    <div class="result-stats">
+        {% for v in result %}
+            <div class="result-card">
+                <div class="result-number">Testcase #{{ v.0 }}</div>
+                <div class="result-text" style="color:
+                    {% if v.1 == 'Accepted' %}var(--lime-7);
+                    {% elif v.1 == 'Wrong Answer' %}var(--yellow-7);
+                    {% else %}var(--red-7);
+                    {% endif %};">
+                    <strong>{{ v.1 }}</strong>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="code-card">
+    <div class="code-card-title">
+        <div>
+            <i class="fa fa-copy copy-icon" title="Copy Code" onclick="copyCodeToClipboard()"></i>
+        </div>
+    </div>
+    <pre><code>{{ code }}</code></pre>
+</div>
+
+<script>
+    function copyCodeToClipboard() {
+        const codeElement = document.querySelector("pre code");
+        const codeText = codeElement.textContent;
+
+        const textArea = document.createElement("textarea");
+        textArea.value = codeText;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        const copyIcon = document.querySelector(".copy-icon");
+        copyIcon.style.color = "var(--green-7)";
+
+        setTimeout(() => {
+            copyIcon.style.color = "var(--gray-4)"; 
+        }, 1000);
+    }
+</script>
+{% endblock %}
